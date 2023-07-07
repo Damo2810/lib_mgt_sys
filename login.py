@@ -1,4 +1,45 @@
 from tkinter import *
+import mysql.connector
+
+
+
+def login():
+    try:
+        staff_name = str(username_entry.get())
+        staff_id = int(password_entry.get())
+    
+        mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="library_management_system")
+
+        mycur = mydb.cursor()
+
+        mycur.execute("SELECT * FROM STAFF")
+
+        records = mycur.fetchall()
+        records_list = [list(row) for row in records]
+
+        flag = 0
+
+        for i in range(0,len(records_list)):
+            flag=0
+            for j in range(0,len(records_list[0])):
+                if staff_id == records_list[i][j] : 
+                    flag = flag + 1
+                elif staff_name == records_list[i][j] :
+                    flag = flag + 1
+                else :
+                    pass
+
+        if flag==2:
+            clear_label.config(text="Login Successfull",fg = "green",font='bold')
+        else :
+            clear_label.config(text="Invalid Username and Password!",fg="red",font='bold')
+
+        mycur.close()
+    
+    except ValueError as e:
+        clear_label.config(text="Password must be a NUMBER!",fg='red',font='bold')
+
+
 
 root = Tk()
 root.title("Library management system")
@@ -23,8 +64,11 @@ username_entry.grid(row=0,column=1,padx=10,pady=10)
 password_label.grid(row=1,column=0,padx=10,pady=10)
 password_entry.grid(row=1,column=1,padx=10,pady=10)
 
+clear_label = Label(frame, text=" ")
+clear_label.grid(row=3,column=0,columnspan=2,ipadx=2)
 
-login_bt = Button(frame, text="LOGIN" , font=('calibre',10,'bold'))
+
+login_bt = Button(frame, text="LOGIN" , font=('calibre',10,'bold'),command=login)
 
 login_bt.grid(row=2,columnspan=2 ,padx=20,pady=20)
 
