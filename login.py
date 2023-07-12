@@ -20,7 +20,10 @@ def login():
         flag = 0
 
         for i in range(0,len(records_list)):
-            flag=0
+            if flag == 2:
+                break
+            else:
+                flag = 0
             for j in range(0,len(records_list[0])):
                 if staff_id == records_list[i][j] : 
                     flag = flag + 1
@@ -30,14 +33,15 @@ def login():
                     pass
 
         if flag==2:
-            clear_label.config(text="Login Successfull",fg = "green",font='bold')
+            clear_label.config(text="Login Successfull",fg = "green",font=('calibre',8,'bold'))
+            
         else :
-            clear_label.config(text="Invalid Username and Password!",fg="red",font='bold')
+            clear_label.config(text="Invalid Username and Password!",fg="red",font=('calibre',8,'bold'))
 
         mycur.close()
     
     except ValueError as e:
-        clear_label.config(text="Password must be a NUMBER!",fg='red',font='bold')
+        clear_label.config(text="Password must be a NUMBER!",fg='red',font=('calibre',8,'bold'))
 
 
 
