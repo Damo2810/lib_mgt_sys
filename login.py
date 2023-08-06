@@ -1,79 +1,95 @@
-from tkinter import *
+import tkinter as tk
 import mysql.connector
+import Home.home as new_window
 
 
+class Login(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.title("Library management system")
 
-def login():
-    try:
-        staff_name = str(username_entry.get())
-        staff_id = int(password_entry.get())
-    
-        mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="library_management_system")
+        width = 650
+        height = 350
 
-        mycur = mydb.cursor()
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
 
-        mycur.execute("SELECT * FROM STAFF")
+        x_coordinate = (screen_width - width) // 2
+        y_coordinate = (screen_height - height) // 2 - 50
 
-        records = mycur.fetchall()
-        records_list = [list(row) for row in records]
+        self.geometry(f"{width}x{height}+{x_coordinate}+{y_coordinate}")
 
-        flag = 0
+        main_lb= tk.Label(self, text="Library management system",font=('calibre',20,'bold'))
 
-        for i in range(0,len(records_list)):
-            if flag == 2:
-                break
-            else:
-                flag = 0
-            for j in range(0,len(records_list[0])):
-                if staff_id == records_list[i][j] : 
-                    flag = flag + 1
-                elif staff_name == records_list[i][j] :
-                    flag = flag + 1
-                else :
-                    pass
+        main_lb.pack()
 
-        if flag==2:
-            clear_label.config(text="Login Successfull",fg = "green",font=('calibre',8,'bold'))
-            
-        else :
-            clear_label.config(text="Invalid Username and Password!",fg="red",font=('calibre',8,'bold'))
+        self.frame = tk.Frame(self, highlightbackground="grey", highlightthickness=2)
+        self.frame.pack(padx= 20 ,pady= 20)
 
-        mycur.close()
-    
-    except ValueError as e:
-        clear_label.config(text="Password must be a NUMBER!",fg='red',font=('calibre',8,'bold'))
+        self.frame.place(relx=0.5,rely=0.5,anchor="center")
+
+        self.username_label = tk.Label(self.frame, text="Username" , font=('calibre',10,'bold'))
+        self.username_entry = tk.Entry(self.frame, width= 25, font=('calibre',10,'normal'))
+        self.password_label = tk.Label(self.frame, text="password" ,font=('calibre',10,'bold'))
+        self.password_entry = tk.Entry(self.frame, width= 25, font=('calibre',10,'bold'), show='*')
+
+        self.username_label.grid(row=0,column=0,padx=10,pady=10)
+        self.username_entry.grid(row=0,column=1,padx=10,pady=10)
+        self.password_label.grid(row=1,column=0,padx=10,pady=10)
+        self.password_entry.grid(row=1,column=1,padx=10,pady=10)
+
+        self.clear_label = tk.Label(self.frame, text=" ")
+        self.clear_label.grid(row=3,column=0,columnspan=2,ipadx=2)
 
 
+        login_bt = tk.Button(self.frame, text="LOGIN" , font=('calibre',10,'bold'),command=self.login_fn)
 
-root = Tk()
-root.title("Library management system")
-root.geometry('650x350')
+        login_bt.grid(row=2,columnspan=2 ,padx=20,pady=20)
 
-main_lb= Label(root, text="Library management system",font=('calibre',20,'bold'))
+    def login_fn(self):
+        try:
+            staff_name = str(self.username_entry.get())
+            staff_id = int(self.password_entry.get())
 
-main_lb.pack()
+            mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="LIBRARY_MANAGEMENT_SYSTEM")
 
-frame = Frame(root, highlightbackground="grey", highlightthickness=2)
-frame.pack(padx= 20 ,pady= 20)
+            mycur = mydb.cursor()
 
-frame.place(relx=0.5,rely=0.5,anchor="center")
+            mycur.execute("SELECT * FROM STAFF")
 
-username_label = Label(frame, text="Username" , font=('calibre',10,'bold'))
-username_entry = Entry(frame, width= 25, font=('calibre',10,'normal'))
-password_label = Label(frame, text="password" ,font=('calibre',10,'bold'))
-password_entry = Entry(frame, width= 25, font=('calibre',10,'bold'), show='*')
+            records = mycur.fetchall()
+            records_list = [list(row) for row in records]
 
-username_label.grid(row=0,column=0,padx=10,pady=10)
-username_entry.grid(row=0,column=1,padx=10,pady=10)
-password_label.grid(row=1,column=0,padx=10,pady=10)
-password_entry.grid(row=1,column=1,padx=10,pady=10)
+            flag = 0
 
-clear_label = Label(frame, text=" ")
-clear_label.grid(row=3,column=0,columnspan=2,ipadx=2)
+            for i in range(0,len(records_list)):
+                if flag == 2:
+                    break
+                else:
+                    flag = 0
+                for j in range(0,len(records_list[0])):
+                    if staff_id == records_list[i][j] : 
+                        flag = flag + 1
+                    elif staff_name == records_list[i][j] :
+                        flag = flag + 1
+                    else :
+                        pass
 
+            if flag==2:
 
-login_bt = Button(frame, text="LOGIN" , font=('calibre',10,'bold'),command=login)
+                self.clear_label.config(text="Login Successfull",fg = "green",font=('calibre',8,'bold'))
+                self.frame.after(2000,self.new_window_open)
+            else :
+                self.clear_label.config(text="Invalid Username and Password!",fg="red",font=('calibre',8,'bold'))
 
-login_bt.grid(row=2,columnspan=2 ,padx=20,pady=20)
+            mycur.close()
 
-root.mainloop()
+        except ValueError as e:
+            self.clear_label.config(text="Password must be a NUMBER!",fg='red',font=('calibre',8,'bold'))
+
+    def new_window_open(self):
+        self.destroy()
+        new_window.run()
+
+app = Login()
+app.mainloop()
