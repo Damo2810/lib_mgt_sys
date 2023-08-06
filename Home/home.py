@@ -56,11 +56,11 @@ class Home(tk.Tk):
         self.frames = {}
         for F in (addbook,Viewbook,Deletebook,Issuebook,Returnbook):
             page_name = F.__name__
-            frame = F(parent=container, controller=self)
+            frame = F(parent=container)
             self.frames[page_name] = frame
 
-            self.grid_rowconfigure(0, weight=1)  # Make the first row expandable
-            self.grid_columnconfigure(0, weight=1)
+            # self.grid_rowconfigure(0, weight=1)  # Make the first row expandable
+            # self.grid_columnconfigure(0, weight=1)
             # put all of the pages in the same location;
             # the one on the top of the stacking order
             # will be the one that is visible.

@@ -5,7 +5,7 @@ class addbook(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        width = self.winfo_screenwidth()
+        # width = self.winfo_screenwidth()
 
         # self.pack_propagate(False)
 

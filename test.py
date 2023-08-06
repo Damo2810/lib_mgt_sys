@@ -13,8 +13,6 @@ class Home(tk.Tk):
         self.width= self.winfo_screenwidth()
         self.height= self.winfo_screenheight()
 
-
-
         self.geometry("%dx%d" % (self.width,self.height))
 
         head_lab= tk.Label(self,text="Library Management System",
