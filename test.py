@@ -54,7 +54,7 @@ class Home(tk.Tk):
         self.frames = {}
         for F in (addbook,Viewbook,Deletebook,Issuebook,Returnbook):
             page_name = F.__name__
-            frame = F(parent=container, controller=self)
+            frame = F(parent=container)
             self.frames[page_name] = frame
 
             self.grid_rowconfigure(0, weight=1)  # Make the first row expandable

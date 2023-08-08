@@ -1,9 +1,8 @@
 import tkinter as tk
-import mysql.connector
-
+import sqlite3
 class addbook(tk.Frame):
 
-    def __init__(self, parent, controller):
+    def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         # width = self.winfo_screenwidth()
 
@@ -48,11 +47,11 @@ class addbook(tk.Frame):
             
             
 
-            mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="LIBRARY_MANAGEMENT_SYSTEM")
+            mydb = sqlite3.connect("LIBRARY_MANAGEMENT_SYSTEM.db")
 
             mycur = mydb.cursor()
 
-            sql = "INSERT INTO BOOKS (BOOK_NO, BOOK_NAME, BOOK_PRICE, BOOK_CATEGORY, BOOK_STATUS) VALUES (%s, %s, %s, %s, %s)"
+            sql = f"INSERT INTO BOOKS (BOOK_NO, BOOK_NAME, BOOK_PRICE, BOOK_CATEGORY, BOOK_STATUS) VALUES (?,?,?,?,?)"
             values = (book_no, book_name, book_price, book_category, book_status)
 
             mycur.execute(sql, values)

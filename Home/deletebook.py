@@ -1,9 +1,10 @@
 import tkinter as tk
 import mysql.connector
+import sqlite3
 
 class Deletebook(tk.Frame):
 
-    def __init__(self, parent, controller):
+    def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         width = self.winfo_screenwidth()
 
@@ -35,7 +36,7 @@ class Deletebook(tk.Frame):
             book_no = int(self.book_no_en.get())
             book_name = str(self.book_name_en.get())
             
-            mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="LIBRARY_MANAGEMENT_SYSTEM")
+            mydb = sqlite3.connect("LIBRARY_MANAGEMENT_SYSTEM.db")
 
             mycur = mydb.cursor()
             
@@ -47,7 +48,7 @@ class Deletebook(tk.Frame):
             str_name_rec = [str(item[0]) for item in name_record]
             str_name_rec = [item[0].lower() for item in name_record]
             if book_no in int_record and book_name.lower() in str_name_rec:
-                sql = "DELETE FROM BOOKS WHERE BOOK_NO = %s"
+                sql = "DELETE FROM BOOKS WHERE BOOK_NO = ?"
                 values = [book_no]
                 mycur.execute(sql, values)
                 mydb.commit()

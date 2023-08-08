@@ -1,5 +1,5 @@
 import tkinter as tk
-import mysql.connector
+import sqlite3
 import Home.home as new_window
 
 
@@ -51,11 +51,10 @@ class Login(tk.Tk):
             staff_name = str(self.username_entry.get())
             staff_id = int(self.password_entry.get())
 
-            mydb = mysql.connector.connect(host="127.0.0.1",user="root",password="damo@mysql33",database="LIBRARY_MANAGEMENT_SYSTEM")
-
+            mydb = sqlite3.connect("LIBRARY_MANAGEMENT_SYSTEM.db")
             mycur = mydb.cursor()
 
-            mycur.execute("SELECT * FROM STAFF")
+            mycur.execute("SELECT * FROM STAFFS")
 
             records = mycur.fetchall()
             records_list = [list(row) for row in records]
