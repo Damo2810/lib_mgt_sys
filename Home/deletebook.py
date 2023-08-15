@@ -8,8 +8,6 @@ class Deletebook(tk.Frame):
         tk.Frame.__init__(self, parent)
         width = self.winfo_screenwidth()
 
-        # self.pack_propagate(False)
-
         frame_in = tk.Frame(self,highlightbackground="grey", highlightthickness=2)
         frame_in.pack(pady=100)
 
@@ -44,9 +42,18 @@ class Deletebook(tk.Frame):
             record = mycur.fetchall()
             mycur.execute("SELECT BOOK_NAME FROM BOOKS")
             name_record = mycur.fetchall()
+
+            # converting the record values to integers
             int_record = [int(item[0]) for item in record]
+
+            # converting the name_record values to string
             str_name_rec = [str(item[0]) for item in name_record]
+
+            # making the string in str_name_rec values to lowercase
             str_name_rec = [item[0].lower() for item in name_record]
+            
+            # checking that both the book no and book name matches 
+            # with the data in the database
             if book_no in int_record and book_name.lower() in str_name_rec:
                 sql = "DELETE FROM BOOKS WHERE BOOK_NO = ?"
                 values = [book_no]

@@ -26,7 +26,7 @@ class Home(tk.Tk):
         button_container = tk.Frame(self,width=self.winfo_screenwidth(),height=50)
         button_container.pack()
 
-
+        # on button click raise the selected window
         addbook_bn = tk.Button(button_container,text="ADD BOOK",
                                command=lambda:self.show_frame("addbook"),height=1)
         viewbook_bn =tk.Button(button_container,text="VIEW BOOK",
@@ -59,14 +59,10 @@ class Home(tk.Tk):
             frame = F(parent=container)
             self.frames[page_name] = frame
 
-            # self.grid_rowconfigure(0, weight=1)  # Make the first row expandable
-            # self.grid_columnconfigure(0, weight=1)
             # put all of the pages in the same location;
             # the one on the top of the stacking order
             # will be the one that is visible.
-            #frame.config(highlightbackground="grey", highlightthickness=2,width=self.width)
             frame.grid(row=0,column=0,sticky='nsew')
-            # frame.grid_propagate(False)
 
         self.show_frame("addbook")
 

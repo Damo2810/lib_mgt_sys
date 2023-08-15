@@ -4,9 +4,6 @@ class addbook(tk.Frame):
 
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        # width = self.winfo_screenwidth()
-
-        # self.pack_propagate(False)
 
         frame_in = tk.Frame(self,highlightbackground="grey", highlightthickness=2)
         frame_in.pack(pady=100)
@@ -51,7 +48,8 @@ class addbook(tk.Frame):
 
             mycur = mydb.cursor()
 
-            sql = f"INSERT INTO BOOKS (BOOK_NO, BOOK_NAME, BOOK_PRICE, BOOK_CATEGORY, BOOK_STATUS) VALUES (?,?,?,?,?)"
+
+            sql = "INSERT INTO BOOKS (BOOK_NO, BOOK_NAME, BOOK_PRICE, BOOK_CATEGORY, BOOK_STATUS) VALUES (?,?,?,?,?)"
             values = (book_no, book_name, book_price, book_category, book_status)
 
             mycur.execute(sql, values)
@@ -62,6 +60,7 @@ class addbook(tk.Frame):
             self.status_label.config(text="Query worked successfully!", fg="green")  # Set success message
             self.after(5000, self.clear_status)  # Clear status after 5 seconds
 
+            # clear the entry widget after the insertion completes
             self.book_no_en.delete(0, tk.END)
             self.book_name_en.delete(0, tk.END)
             self.book_price_en.delete(0, tk.END)
@@ -71,5 +70,6 @@ class addbook(tk.Frame):
             self.status_label.config(text="Error: " + str(e), fg="red")  # Set error message
 
     def clear_status(self):
+        # creating a empty label which can be configured later
         self.status_label.config(text="")
 

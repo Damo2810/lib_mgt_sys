@@ -5,6 +5,7 @@ import Home.home as new_window
 
 class Login(tk.Tk):
     def __init__(self):
+        # initializing self Tk()
         tk.Tk.__init__(self)
         self.title("Library management system")
 
@@ -47,16 +48,21 @@ class Login(tk.Tk):
         login_bt.grid(row=2,columnspan=2 ,padx=20,pady=20)
 
     def login_fn(self):
+        # login func authenticates the user
         try:
             staff_name = str(self.username_entry.get())
             staff_id = int(self.password_entry.get())
 
+
+            # connecting to the sqlite3 database
             mydb = sqlite3.connect("LIBRARY_MANAGEMENT_SYSTEM.db")
             mycur = mydb.cursor()
 
             mycur.execute("SELECT * FROM STAFFS")
 
             records = mycur.fetchall()
+            
+            # converting the records tuple to rows
             records_list = [list(row) for row in records]
 
             flag = 0
