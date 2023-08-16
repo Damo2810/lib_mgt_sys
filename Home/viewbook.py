@@ -225,8 +225,9 @@ class Viewbook(tk.Frame):
             else :
                 # give the guidance message to the user to get the output
                 error_label = tk.Label(self.frame_table,text="Please select 'ALL' for all other options to retrieve the required BOOKS!",
-                                        fg="red",font =('calibre',10,'bold'))
-                error_label.grid(row=1,column=0,columnspan=5)
+                                        fg="red",font =('calibre',10,'bold'),
+                                        highlightbackground="grey",highlightthickness=1)
+                error_label.grid(row=1,column=0,columnspan=5,sticky='ew')
                 cursor.execute("SELECT * FROM BOOKS")
                 data = cursor.fetchall()
                 # get the column name of the books table
